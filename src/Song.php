@@ -4,14 +4,14 @@ namespace App;
 
 class Song
 {
-    public const string LYRICS_PATH = __DIR__ . '/stubs/lyrics.stub';
+    public const string LYRICS_PATH = __DIR__ . '/../tests/stubs/lyrics.stub';
 
-    public function sing()
+    public function sing(): string
     {
         return $this->verses(start: 99, end: 0);
     }
 
-    public function verses(int $start, int $end)
+    public function verses(int $start, int $end): string
     {
         $verses = array_map(
             fn($number) => $this->verse($number),
@@ -21,27 +21,18 @@ class Song
         return implode("\n", $verses);
     }
 
-    public static function verse(int $number)
+    public static function verse(int $number): string
     {
-        // refactor with scenes
-        // TODO: Use match
-        if ($number == 2) {
-            return
-                "2 bottles of beer on the wall, 2 bottles of beer.\n" .
-                "Take one down and pass it around, 1 bottle of beer on the wall.";
-        } else if ($number == 1) {
-            return
-                "1 bottle of beer on the wall, 1 bottle of beer.\n" .
-                "Take one down and pass it around, no more bottles of beer on the wall.";
-        } else if ($number == 0) {
-            return
-                "No more bottles of beer on the wall, no more bottles of beer.\n" .
-                "Go to the store and buy some more, 99 bottles of beer on the wall.";
-        }
-
-        return
-            "$number bottles of beer on the wall, $number bottles of beer.\n" .
-            "Take one down and pass it around, " . ($number - 1) . " bottles of beer on the wall.";
+        return match ($number) {
+            2 => "2 bottles of beer on the wall, 2 bottles of beer.\n" .
+                "Take one down and pass it around, 1 bottle of beer on the wall.",
+            1 => "1 bottle of beer on the wall, 1 bottle of beer.\n" .
+                "Take one down and pass it around, no more bottles of beer on the wall.",
+            0 => "No more bottles of beer on the wall, no more bottles of beer.\n" .
+                "Go to the store and buy some more, 99 bottles of beer on the wall.",
+            default => "$number bottles of beer on the wall, $number bottles of beer.\n" .
+                "Take one down and pass it around, " . ($number - 1) . " bottles of beer on the wall."
+        };
 
         // old legacy code
 
